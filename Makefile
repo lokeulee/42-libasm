@@ -1,11 +1,41 @@
-all:
-	nasm -f macho64 hello_world.asm -o hello_world.o && ld -macosx_version_min 10.7.0 -lSystem -o hello_world hello_world.o -e _start
-run1: 
-	./hello_world
+NAME			= asm.out
 
-src: strlen.asm strcpy.asm strcmp.asm
-	# nasm -f macho64 strlen.asm -o strlen.o && ld -macosx_version_min 10.7.0 -lSystem -o strlen strlen.o -e _start
-	nasm -f macho64 strcmp.asm -o strcmp.o && nasm -f macho64 strcpy.asm -o strcpy.o && nasm -f macho64 strlen.asm -o strlen.o && gcc strcmp.o strlen.o strcpy.o main.c && ./a.out
+NASM			= nasm
+GCC				= gcc
 
-run2:
-	./strlen
+NASM_FLAGS		= -f macho64
+CC_FLAGS		= -o
+RM				= rm -rf
+
+LIB				= libasm.a
+
+SRCS_DIR		= ./src
+OBJS_DIR		= ./obj
+
+SRCS			= strlen.asm strcpy.asm strcmp.asm write.asm
+OBJS			= $(SRCS:%.asm=$(OBJS_DIR)/%.o)
+
+INCLUDES		= -Iincludes
+
+all: $(NAME)
+
+$(NAME): $(OBJS) main.c
+			$(GCC) $(OBJS) main.c $(INCLUDES) -o $@
+
+
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.asm
+		mkdir -p $(OBJS_DIR)
+		$(NASM) $(NASM_FLAGS) $(INCLUDES) $< -o $@
+
+test: re
+	./asm.out
+
+clean:
+	$(RM) $(OBJS)
+
+fclean:	clean
+	$(RM) $(NAME) $(OBJS_DIR)
+
+re: clean all
+
+.PHONY: clean re
