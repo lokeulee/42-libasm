@@ -13,7 +13,8 @@ LIB_FLAGS		= -L. -lasm
 SRCS_DIR		= ./src
 OBJS_DIR		= ./obj
 
-SRCS			= strlen.asm strcpy.asm strcmp.asm write.asm
+SRCS			= 	strlen.asm strcpy.asm strcmp.asm \
+						write.asm read.asm strdup.asm
 OBJS			= $(SRCS:%.asm=$(OBJS_DIR)/%.o)
 
 INCLUDES		= -Iincludes
