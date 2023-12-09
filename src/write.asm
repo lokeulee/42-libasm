@@ -1,31 +1,24 @@
-
 global _ft_write
 
 section .data
-    input_string db 'Hello, Assembly!', 0    ; Null-terminated string to be written
-    input_length equ $ - input_string        ; Length of the string
-    custom_fd equ 1                           ; Custom file descriptor (e.g., stdout)
+    WRITE equ 0x2000004
 
-
+section __TEXT,__text
 _ft_write:
-    ; You can input your own values here
-    ; For example:
-    ; mov rdi, custom_fd          ; Set your own file descriptor
-    ; mov rsi, input_string       ; Set the pointer to your own string
-    ; mov rdx, input_length       ; Set the length of your own string
+    push    rbp             ; push base pointer
+    mov     rbp, rsp        ; set base pointer into stack pointer 
 
-    ; For demonstration, using the predefined values
-    mov rdi, 1                   ; file descriptor 1 (stdout)
-    mov rsi, input_string        ; pointer to the buffer
-    mov rdx, input_length        ; length of the buffer
-
-    ; Arguments for write syscall
-    mov rax, 1                   ; syscall number for write
-
-    ; Invoke syscall
+    mov     rax, WRITE      ; syscall number
     syscall
 
-    ; Exit the program
-    mov rax, 60                  ; syscall number for exit
-    xor rdi, rdi                 ; exit code 0
-    syscall
+    jc set_error            ; if error, set errno and return -1
+
+    mov     rax, 0          ; return value for success
+    pop     rbp             ; restore base pointer
+    ret
+
+set_error:
+    mov     [rax], rax      ; Set errno to the error value
+    mov     rax, -1         ; return value for error
+    pop     rbp             ; restore base pointer
+    ret

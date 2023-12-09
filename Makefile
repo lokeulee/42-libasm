@@ -8,6 +8,7 @@ CC_FLAGS		= -o
 RM				= rm -rf
 
 LIB				= libasm.a
+LIB_FLAGS		= -L. -lasm
 
 SRCS_DIR		= ./src
 OBJS_DIR		= ./obj
@@ -26,6 +27,10 @@ $(NAME): $(OBJS) main.c
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.asm
 		mkdir -p $(OBJS_DIR)
 		$(NASM) $(NASM_FLAGS) $(INCLUDES) $< -o $@
+
+lib: $(OBJS)
+	$(NASM) $(NASM_FLAGS) $(INCLUDES) $< -o $@
+	ar rcs $(LIB) $(OBJS)
 
 test: re
 	./asm.out

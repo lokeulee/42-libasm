@@ -41,7 +41,6 @@ int main()
 
     printf("\nPrinting STRCMP Test Case\n");
     write(1, str, strlen(str));
-    // ft_write(1, str, strlen(str));
-    // ft_write();
+    ft_write(1, str, strlen(str));
     return 0;
 }
