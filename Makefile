@@ -3,9 +3,9 @@ NAME            = asm.out
 NASM            = nasm
 GCC             = gcc
 
-NASM_FLAGS      = -f elf64
-CC_FLAGS        = -o
+NASM_FLAGS      = -f elf64 
 RM              = rm -rf
+NO_PIE		  	= -no-pie
 
 LIB             = libasm.a
 LIB_FLAGS       = -L. -lasm
@@ -22,7 +22,7 @@ INCLUDES        = -Iincludes
 all: $(NAME)
 
 $(NAME): $(OBJS) main.c
-		$(GCC) $(OBJS) main.c $(INCLUDES) -o $@
+		$(GCC) $(NO_PIE) $(OBJS) main.c $(INCLUDES) -o $@
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.s
 		mkdir -p $(OBJS_DIR)
