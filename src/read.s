@@ -1,24 +1,30 @@
 global ft_read
 
 section .data
-    READ equ 0x2000003
+    READ equ 1
+section .text
 
-section __TEXT,__text
+    ; Parameters are already in correct registers for syscall:
+    ; rdi = fd
+    ; rsi = buffer
+    ; rdx = bytes to read
 ft_read:
-    push    rbp             ; push base pointer
-    mov     rbp, rsp        ; set base pointer into stack pointer 
-
-    mov     rax, READ       ; syscall number
+    push    rbp             ; save base pointer
+    mov     rbp, rsp        ; set up new stack frame
+    
+    mov     rax, READ          ; syscall for reading
     syscall
-
-    jc set_error            ; if error, set errno and return -1
-
-    mov     rax, 0          ; return value for success
+    
+    ; Check for error (negative return value)
+    test    rax, rax
+    js      set_error
+    
+    ; Success path
     pop     rbp             ; restore base pointer
     ret
 
 set_error:
-    mov     [rax], rax      ; Set errno to the error value
-    mov     rax, -1         ; return value for error
+    mov     rdi, rax        ; set errno
+    mov     rax, -1         ; return -1 to indicate error
     pop     rbp             ; restore base pointer
     ret
