@@ -13,9 +13,9 @@ LIB_FLAGS       = -L. -lasm
 SRCS_DIR        = ./src
 OBJS_DIR        = ./obj
 
-SRCS            =     strlen.asm strcpy.asm strcmp.asm \
-                        write.asm read.asm strdup.asm
-OBJS            = $(SRCS:%.asm=$(OBJS_DIR)/%.o)
+SRCS            = strlen.s strcpy.s strcmp.s \
+                    	write.s read.s strdup.s
+OBJS            = $(SRCS:%.s=$(OBJS_DIR)/%.o)
 
 INCLUDES        = -Iincludes
 
@@ -24,7 +24,7 @@ all: $(NAME)
 $(NAME): $(OBJS) main.c
 		$(GCC) $(OBJS) main.c $(INCLUDES) -o $@
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.asm
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.s
 		mkdir -p $(OBJS_DIR)
 		$(NASM) $(NASM_FLAGS) $(INCLUDES) $< -o $@
 
