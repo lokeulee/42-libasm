@@ -1,7 +1,6 @@
 global ft_read
-
 section .data
-    READ equ 1
+    READ equ 0
 section .text
 
     ; Parameters are already in correct registers for syscall:
@@ -9,10 +8,10 @@ section .text
     ; rsi = buffer
     ; rdx = bytes to read
 ft_read:
-    push    rbp             ; save base pointer
-    mov     rbp, rsp        ; set up new stack frame
+    push    rbp                 ; save base pointer
+    mov     rbp, rsp            ; set up new stack frame
     
-    mov     rax, READ          ; syscall for reading
+    mov     rax, READ           ; syscall for reading
     syscall
     
     ; Check for error (negative return value)
