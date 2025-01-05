@@ -1,24 +1,20 @@
 global ft_write
 
 section .data
-    WRITE equ 0x2000004
+    WRITE equ 1
 
-section __TEXT,__text
+section .text
 ft_write:
-    push    rbp             ; push base pointer
-    mov     rbp, rsp        ; set base pointer into stack pointer 
+    push    rbp             ; Save base pointer
+    mov     rbp, rsp        ; Set base pointer to stack pointer
+    mov     rax, WRITE      ; Syscall number for write
+    syscall                 ; Perform the syscal
+    jc      set_error       ; Jump if error occurred
 
-    mov     rax, WRITE      ; syscall number
-    syscall
-
-    jc set_error            ; if error, set errno and return -1
-
-    mov     rax, 0          ; return value for success
-    pop     rbp             ; restore base pointer
-    ret
+    pop     rbp             ; Restore base pointer
+    ret                     ; Return the number of bytes written
 
 set_error:
-    mov     [rax], rax      ; Set errno to the error value
-    mov     rax, -1         ; return value for error
-    pop     rbp             ; restore base pointer
+    mov     rax, -1         ; Return -1 on error
+    pop     rbp             ; Restore base pointer
     ret
