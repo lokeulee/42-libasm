@@ -1,14 +1,14 @@
-global _ft_read
+global ft_read
 
 section .data
     READ equ 0x2000003
 
 section __TEXT,__text
-_ft_read:
+ft_read:
     push    rbp             ; push base pointer
     mov     rbp, rsp        ; set base pointer into stack pointer 
 
-    mov     rax, READ      ; syscall number
+    mov     rax, READ       ; syscall number
     syscall
 
     jc set_error            ; if error, set errno and return -1

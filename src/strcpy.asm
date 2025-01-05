@@ -1,19 +1,18 @@
-global _ft_strcpy
+global ft_strcpy
 
-_ft_strcpy:
-    mov     rax, 0
-    mov     rcx, rdi ; Saving initial position of destination
+ft_strcpy:
+    mov     rcx, rdi                  ; Save the original destination pointer
 
-_strcpy_next:
+strcpy_next:
     cmp     byte [rdi], 0             ; Check if the current byte is null (end of string)
-    jz      _strcpy_done              ; jump if equals to 0
+    jz      strcpy_done               ; jump if equals to 0
 
-    mov     byte al, byte [rsi]       ; Load the byte from the source
-    mov     byte [rdi], byte al       ; Store it in the destination
-    inc     rsi                       ; src character move 1 char ->
-    inc     rdi                       ; dst character move 1 char ->
-    jmp     _strcpy_next              ; Continue looping
+    mov     al, byte [rsi]            ; Load the byte from the source string
+    mov     byte [rdi], al            ; Store the byte in the destination string
+    inc     rsi                       ; Move to the next byte in the source
+    inc     rdi                       ; Move to the next byte in the destination
+    jmp     strcpy_next               ; Continue looping
+strcpy_done
 
-_strcpy_done:
-    mov     rax, rcx        ; Store the length (counter) in rax
-    ret                     ; Return from the function
+    mov     rax, rcx                  ; Return the original destination pointer
+    ret								  ; Return from the function

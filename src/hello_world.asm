@@ -1,4 +1,4 @@
-global _start
+global start
 section .data
 	WRITE:	equ 0x2000004
 	EXIT:	equ 0x2000001
@@ -8,7 +8,7 @@ section .data
 	len:	equ $ - hello_str
 
 section .text
-_start:
+start:
 
 	mov rax, WRITE  	; syscall for sys_write
 	mov rdi, STDOUT     ; mov fd 1 to rdi register

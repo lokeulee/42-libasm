@@ -7,7 +7,7 @@
 int main()
 {
     printf("\nPrinting STRLEN Test Case\n");
-    char *str = "hello";
+    char *str = "helloz";
     char *str2 = "world";
     char buffer[1024];
 
@@ -55,8 +55,8 @@ int main()
     printf("%s\n", buffer);
     ft_read(fd, buffer, 1024);
     printf("%s\n", buffer);
-    printf("\nPrinting strdup Test Case\n");
-    strdupstr = ft_strdup(str);
-    printf("strdup: %s\n", strdupstr);
+    // printf("\nPrinting strdup Test Case\n");
+    // strdupstr = ft_strdup(str);
+    // printf("strdup: %s\n", strdupstr);
     return 0;
 }

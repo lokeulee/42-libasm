@@ -1,10 +1,10 @@
-global _ft_write
+global ft_write
 
 section .data
     WRITE equ 0x2000004
 
 section __TEXT,__text
-_ft_write:
+ft_write:
     push    rbp             ; push base pointer
     mov     rbp, rsp        ; set base pointer into stack pointer 
 
