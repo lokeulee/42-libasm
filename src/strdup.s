@@ -13,12 +13,12 @@ ft_strdup:
     test rdi, rdi             ; Verify input string isn't NULL
     jz strdup_error
     
-    call ft_strlen wrt ..plt   ; Call ft_strlen through PLT
+    call ft_strlen wrt ..plt   ; Call ft_strlen through Procedure Linkage Table
     mov rbx, rax              ; Save length
     inc rax                   ; Adding additional length of 1 for null terminator
     
     mov rdi, rax
-    call malloc wrt ..plt     ; Call malloc through PLT
+    call malloc wrt ..plt     ; Call malloc through Procedure Linkage Table
     test rax, rax            ; Check if malloc failed
     jz strdup_error
     
@@ -27,7 +27,7 @@ ft_strdup:
     pop rsi                  ; Get source string
     push rax                 ; Save malloc-ed pointer
     
-    call ft_strcpy wrt ..plt ; Call ft_strcpy through PLT
+    call ft_strcpy wrt ..plt ; Call ft_strcpy through Procedure Linkage Table
     pop rax
     pop rbp
     ret
